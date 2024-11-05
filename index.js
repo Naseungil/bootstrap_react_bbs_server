@@ -43,6 +43,15 @@ app.get("/list", (req, res) => {
   });
 });
 
+app.get("/datail", (req, res) => {
+  const id = req.query.id;
+  const sql = "SELECT BOARD_TITLE, BOARD_CONTENT FROM board WHERE BOARD_ID = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 app.post("/insert", (req, res) => {
   let title = req.body.title;
   let content = req.body.content;
