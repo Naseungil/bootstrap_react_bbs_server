@@ -43,7 +43,7 @@ app.get("/list", (req, res) => {
   });
 });
 
-app.get("/datail", (req, res) => {
+app.get("/detail", (req, res) => {
   const id = req.query.id;
   const sql = "SELECT BOARD_TITLE, BOARD_CONTENT FROM board WHERE BOARD_ID = ?";
   db.query(sql, [id], (err, result) => {
@@ -58,6 +58,19 @@ app.post("/insert", (req, res) => {
   const sql =
     "INSERT INTO board (BOARD_TITLE, BOARD_CONTENT, REGISTER_ID) VALUES (?,?,'admin')";
   db.query(sql, [title, content], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+app.post("/update", (req, res) => {
+  // let title = req.body.title;
+  // let content = req.body.content;
+  // let id = req.body.id;
+  const { id, title, content } = req.body; //비구조 할당
+  const sql =
+    "UPDATE board SET BOARD_TITLE = ?, BOARD_CONTENT = ? WHERE BOARD_ID = ? ";
+  db.query(sql, [title, content, id], (err, result) => {
     if (err) throw err;
     res.send(result);
   });
